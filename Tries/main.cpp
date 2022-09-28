@@ -5,16 +5,11 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
-using namespace std;
 
-// Do not edit the class below except for the
-// populateSuffixTrieFrom and contains methods.
-// Feel free to add new properties and methods
-// to the class.
 class TrieNode
 {
 public:
-    unordered_map<char, TrieNode *> children;
+    std::unordered_map<char, TrieNode *> children;
 };
 
 class SuffixTrie
@@ -23,7 +18,7 @@ public:
     TrieNode *root;
     char endSymbol;
 
-    SuffixTrie(string str)
+    SuffixTrie(std::string str)
     {
         this->root = new TrieNode();
         this->endSymbol = '*';
@@ -57,7 +52,7 @@ public:
             this->insertSubstringStartingAt(i, str);
     }
 
-    bool contains(string str)
+    bool contains(std::string str)
     {
         auto node = this->root;
 
@@ -87,10 +82,12 @@ int main()
 {
     std::vector<std::string> dictionary = {"hola", "mundo", "persona", "pasajero", "lechuga"};
     SuffixTrie myTrie("hola");
+
     for (auto i : dictionary)
         myTrie.populateSuffixTrieFrom(i);
 
-    std::cout << "Contiene " << myTrie.contains("persona") << std::endl;
+    std::string word = "persona";
+    (myTrie.contains(word)) ? std::cout << "Si contiene palabra: " + word << std::endl : std::cout << "No contiene plabra: " + word << std::endl;
 
     return 0;
 }
