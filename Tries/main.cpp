@@ -25,7 +25,7 @@ public:
         this->populateSuffixTrieFrom(str);
     }
 
-    void insertSubstringStartingAt(int index, std::string str)
+    void populateSuffixTrieFrom(std::string str)
     {
         for (int j = 0; j < str.length(); j++)
         {
@@ -44,12 +44,6 @@ public:
             }
             node->children[this->endSymbol] = nullptr;
         }
-    }
-
-    void populateSuffixTrieFrom(std::string str)
-    {
-        for (int i = 0; i < str.length(); i++)
-            this->insertSubstringStartingAt(i, str);
     }
 
     bool contains(std::string str)
