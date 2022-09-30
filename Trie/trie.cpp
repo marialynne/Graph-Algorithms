@@ -46,6 +46,8 @@ int main()
       cout << "ERROR: Solo se aceptan caracteres de la a - z, minusculas y sin espacios.\n";
   }
 
+  graph.printGraph(graph.root);
+
   cout << "\nIngresa el numero de palabras a buscar: ";
   cin >> m;
 

@@ -18,13 +18,15 @@ void TRIE::addText(string text)
     while (currentNode->nextNodes[text[i]])
     { // Mientras haya camino siguelo
       currentNode = currentNode->nextNodes[text[i]];
-      i++; // Sigue avanzando en el texto
+      // Sigue avanzando en el texto
+      i++;
     }
     // Si ya no hay camino haz uno nuevo
     Node *newNode = new Node();
     currentNode->nextNodes[text[i]] = newNode;
     currentNode = newNode;
-    currentNode->nextNodes['$'] = nullptr;
+    currentNode->endNode = true;
+    // currentNode->nextNodes['$'] = nullptr;
   }
 }
 
@@ -42,7 +44,7 @@ bool TRIE::searchTrie(string text)
   }
 
   cout << "Caracteres encontrados: " << resultingSearch;
-  if (currentNode->nextNodes['$'] == nullptr)
+  if (currentNode->endNode)
     return true;
   return false;
 }
@@ -51,7 +53,7 @@ void TRIE::printGraph(Node *root)
 {
   for (std::pair<const char, Node *> el : root->nextNodes)
   {
-    // cout << el.first << " ";
+    cout << el.first << " ";
     if (el.second != nullptr)
     {
       printGraph(el.second);
