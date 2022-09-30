@@ -40,7 +40,8 @@ public:
                     auto newChildren = new TrieNode();
                     node->children[i] = newChildren;
                 }
-                node = node->children[i];
+
+                node = node->children[i]; // Nos movemos a newChildren
             }
             node->children[this->endSymbol] = nullptr;
         }
@@ -48,25 +49,21 @@ public:
 
     bool contains(std::string str)
     {
-        auto node = this->root;
+        TrieNode *node = this->root;
+        std::string word = "";
 
-        for (auto i : str)
+        for (char i : str)
         {
-
+            word += i;
             if (!(node->children[i]))
                 return false;
+
             node = node->children[i];
         }
 
-        auto x = node->children;
-        // std::cout << x.first << std::endl;
-
-        for (auto x : node->children)
-        {
-            // std::cout << (x.first == this->endSymbol) << std::endl;
-            if (x.first == this->endSymbol)
-                return true;
-        }
+        std::cout << (node->children.find('*')->first == '*') << std::endl;
+        /* if ( == this->endSymbol)
+            return true; */
 
         return false;
     }
@@ -74,13 +71,13 @@ public:
 
 int main()
 {
-    std::vector<std::string> dictionary = {"hola", "mundo", "persona", "pasajero", "lechuga"};
+    std::vector<std::string> dictionary = {"perro"};
     SuffixTrie myTrie("hola");
 
     for (auto i : dictionary)
         myTrie.populateSuffixTrieFrom(i);
 
-    std::string word = "persona";
+    std::string word = "hol";
     (myTrie.contains(word)) ? std::cout << "Si contiene palabra: " + word << std::endl : std::cout << "No contiene plabra: " + word << std::endl;
 
     return 0;
