@@ -21,11 +21,11 @@ void TRIE::addText(string text) {
     Node *newNode = new Node();
     currentNode->nextNodes[text[i]] = newNode;
     currentNode = newNode;
-    currentNode->nextNodes['$'] = nullptr;
   }
+  currentNode->endNode = true;
 }
 
-void TRIE::searchTrie(string text) {
+bool TRIE::searchTrie(string text) {
   cout << "texto a buscar: " << text << "\n";
   Node* currentNode = this->root;
   string resultingSearch;
@@ -36,16 +36,28 @@ void TRIE::searchTrie(string text) {
     resultingSearch += text[i];
     i++;
   }
-  cout << "Caracteres encontrados: " << resultingSearch << "\n";
+  cout << "Caracteres encontrados: " << resultingSearch << " => BOOL:  ";
+  //cout << "\n current NODE: " << currentNode->endNode << "\n";
+  if (currentNode->endNode)
+    return true;
+  return false;
 }
 
-void TRIE::printGraph(Node* root) {
+void TRIE::getGraph(Node* root, int level, map<int, vector<char>> &mapTrie) {
     for (std::pair<const char, Node*> el : root->nextNodes){
-      cout << el.first << " ";
-      if (el.second != nullptr){
-        printGraph(el.second);
-        cout << "\n";
-        //std::cout << "Tienen hijos" << std::endl;
+      mapTrie[level].push_back(el.first);
+      if (!el.second->endNode){
+        getGraph(el.second, level + 1, mapTrie);
       }
     }
+}
+
+void TRIE::printResultingTrie(map<int, vector<char>> mapTrie) {
+  for (pair<const int, vector<char>> level : mapTrie) {
+      cout << "Nivel (" << level.first << "):  ";
+      for (auto character : level.second) {
+        cout << " " << character << " ";
+      }
+      cout << "\n";
+  }
 }

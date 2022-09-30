@@ -8,6 +8,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <vector>
 #include <iostream>
 #include "node.h"
 
@@ -20,8 +21,9 @@ class TRIE {
   public:
     TRIE();
     void addText(string);
-    void searchTrie(string);
-    void printGraph(Node*);
+    bool searchTrie(string);
+    void getGraph(Node*, int, map<int, vector<char>>&);
+    void printResultingTrie(map<int, vector<char>>);
 };
 
 #endif //ALGORITMOS_AVANZADOS_GRAPH_H
