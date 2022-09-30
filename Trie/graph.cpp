@@ -21,8 +21,8 @@ void TRIE::addText(string text) {
     Node *newNode = new Node();
     currentNode->nextNodes[text[i]] = newNode;
     currentNode = newNode;
+    currentNode->nextNodes['$'] = nullptr;
   }
-  currentNode->nextNodes['$'] = nullptr;
 }
 
 void TRIE::searchTrie(string text) {
@@ -36,7 +36,6 @@ void TRIE::searchTrie(string text) {
     resultingSearch += text[i];
     i++;
   }
-  cout << " || \n";
   cout << "Caracteres encontrados: " << resultingSearch << "\n";
 }
 
@@ -45,7 +44,7 @@ void TRIE::printGraph(Node* root) {
       cout << el.first << " ";
       if (el.second != nullptr){
         printGraph(el.second);
-        //std::cout << std::endl;
+        cout << "\n";
         //std::cout << "Tienen hijos" << std::endl;
       }
     }
