@@ -7,77 +7,61 @@
 #include <iostream>
 using namespace std;
 
-bool regexWord(string word){
+bool regexWord(string word)
+{
   const regex expReg("^[a-zA-Z]+$");
   return regex_match(word, expReg);
 }
 
-bool regexNumber(string numb){
-  const regex expReg("^[0-9]+$");
-  return regex_match(numb, expReg);
+bool regexNumber(string num)
+{
+  string int_num = "^[0-9]*$";
+
+  regex pattern(int_num);
+
+  if (regex_match(num, pattern))
+    return true;
+  return false;
 }
 
-int main () {
+int main()
+{
   TRIE graph;
-  int i = 0;
   int n, m;
-  cout<<"\nBienvenido a TRIE. \n";
-  cout<<"Ingresa el numero de palabras a insertar: \n";
+  string word;
+
+  cout << "\nBienvenido a TRIE. \n";
+  cout << "Ingresa el numero de palabras a insertar: ";
   cin >> n;
 
-  //cin.ignore(10000, '\n');
-  //fflush(stdin);
-
-  while(i < n) {
-    string word;
-    cout<<"Ingresa la palabra ("<<(i + 1)<<"): \n";
+  for (int i = 0; i < n; i++)
+  {
+    cout << "Ingresa la palabra (" << (i + 1) << "): ";
     cin.ignore();
     getline(cin, word);
-    // cout<<word << "\n";
-    //cin.clear();
-    //fflush(stdin);
-    if(regexWord(word) == true) {
-      graph.addText(word);
-      i += 1;
-    } else {
-      cout<<"ERROR: Solo se aceptan caracteres de la a - z, minusculas y sin espacios.\n";
-    }
-  }
-  cout<<"\n";
 
-  cout<<"Ingresa el numero de palabras a buscar: ";
+    if (regexWord(word))
+      graph.addText(word);
+    else
+      cout << "ERROR: Solo se aceptan caracteres de la a - z, minusculas y sin espacios.\n";
+  }
+
+  cout << "\nIngresa el numero de palabras a buscar: ";
   cin >> m;
 
-  if (!regexNumber(to_string(m))) {
-    cout << "ERROR: Solo se aceptan numeros \n";
-    exit(0);
+  for (int i = 0; i < m; i++)
+  {
+    cout << "Ingresa la palabra (" << (i + 1) << "): ";
+    cin.ignore();
+    getline(cin, word);
+
+    (graph.searchTrie(word)) ? cout << "\tTRUE\n" : cout << "\tFALSE\n";
+
+    /*  if (regexWord(word))
+       (graph.searchTrie(word)) ? cout << "\tTRUE\n" : cout << "\tFALSE\n";
+     else
+       cout << "ERROR: Solo se aceptan caracteres de la a - z. \n"; */
   }
 
-  i = 0;
-  while(i < m) {
-    string word;
-    cin>>word;
-    //cin.ignore();
-    //getline(cin, word);
-
-    if (regexWord(word)) {
-      cout << "Encontrado: " << "\n";
-      graph.searchTrie(word);
-      graph.printGraph(graph.root);
-      m++;
-    } else {
-      cout<<"ERROR: Solo se aceptan caracteres de la a - z. \n";
-    }
-    cout<<"\n";
-  }
-
-  /*graph.addText("holas");
-  graph.addText("hola");
-  graph.addText("hueva");
-  graph.addText("abbc");
-  graph.addText("acda");
-  graph.searchTrie("hola"); */
-  //graph.searchTrie("humo");
-  // graph.printGraph(graph.root);
+  graph.printGraph(graph.root);
 }
-

@@ -4,16 +4,19 @@
 
 #include "graph.h"
 
-
-TRIE::TRIE() {
+TRIE::TRIE()
+{
   // Inicializar el root a un nodo vacio
   this->root = new Node();
 }
 
-void TRIE::addText(string text) {
-  Node* currentNode = this->root;
-  for (int i  = 0; i < text.length(); i++) {
-    while (currentNode->nextNodes[text[i]]) { // Mientras haya camino siguelo
+void TRIE::addText(string text)
+{
+  Node *currentNode = this->root;
+  for (int i = 0; i < text.length(); i++)
+  {
+    while (currentNode->nextNodes[text[i]])
+    { // Mientras haya camino siguelo
       currentNode = currentNode->nextNodes[text[i]];
       i++; // Sigue avanzando en el texto
     }
@@ -25,27 +28,35 @@ void TRIE::addText(string text) {
   }
 }
 
-void TRIE::searchTrie(string text) {
-  cout << "texto a buscar: " << text << "\n";
-  Node* currentNode = this->root;
-  string resultingSearch;
-  int i = 0;
-  while (currentNode->nextNodes[text[i]]) { // Mientras haya camino siguelo
-    cout << " " << text[i] << " ";
+bool TRIE::searchTrie(string text)
+{
+  Node *currentNode = this->root;
+  string resultingSearch = "";
+
+  for (char i : text) // Mientras haya camino siguelo
+  {
+    resultingSearch += i;
+    if (currentNode->nextNodes[text[i]])
+      return false;
     currentNode = currentNode->nextNodes[text[i]];
-    resultingSearch += text[i];
-    i++;
   }
-  cout << "Caracteres encontrados: " << resultingSearch << "\n";
+
+  cout << "Caracteres encontrados: " << resultingSearch;
+  if (currentNode->nextNodes['$'] == nullptr)
+    return true;
+  return false;
 }
 
-void TRIE::printGraph(Node* root) {
-    for (std::pair<const char, Node*> el : root->nextNodes){
-      cout << el.first << " ";
-      if (el.second != nullptr){
-        printGraph(el.second);
-        cout << "\n";
-        //std::cout << "Tienen hijos" << std::endl;
-      }
+void TRIE::printGraph(Node *root)
+{
+  for (std::pair<const char, Node *> el : root->nextNodes)
+  {
+    // cout << el.first << " ";
+    if (el.second != nullptr)
+    {
+      printGraph(el.second);
+      // cout << "\n";
+      // std::cout << "Tienen hijos" << std::endl;
     }
+  }
 }

@@ -13,16 +13,16 @@
 
 using namespace std;
 
-class TRIE {
-  public:
-    Node* root;
+class TRIE
+{
+public:
+  Node *root;
 
-  public:
-    TRIE();
-    void addText(string);
-    void searchTrie(string);
-    void printGraph(Node*);
+public:
+  TRIE();
+  void addText(string);
+  bool searchTrie(string);
+  void printGraph(Node *);
 };
 
-#endif //ALGORITMOS_AVANZADOS_GRAPH_H
-
+#endif // ALGORITMOS_AVANZADOS_GRAPH_H
