@@ -31,13 +31,13 @@ bool TRIE::searchTrie(string text) {
   string resultingSearch;
   int i = 0;
   while (currentNode->nextNodes[text[i]]) { // Mientras haya camino siguelo
-    cout << " " << text[i] << " ";
+    cout << " " << text[i] << " (Nodo:  " << currentNode << " )" << " ";
     currentNode = currentNode->nextNodes[text[i]];
     resultingSearch += text[i];
     i++;
   }
-  cout << "Caracteres encontrados: " << resultingSearch << " => BOOL:  ";
-  //cout << "\n current NODE: " << currentNode->endNode << "\n";
+  //cout << "Caracteres encontrados: " << resultingSearch << " => BOOL:  ";
+  cout << " => BOOL:  ";
   if (currentNode->endNode)
     return true;
   return false;
@@ -46,8 +46,11 @@ bool TRIE::searchTrie(string text) {
 void TRIE::getGraph(Node* root, int level, map<int, vector<char>> &mapTrie) {
     for (std::pair<const char, Node*> el : root->nextNodes){
       mapTrie[level].push_back(el.first);
+      cout << " " << el.first << " ";
       if (!el.second->endNode){
         getGraph(el.second, level + 1, mapTrie);
+      } else {
+        cout << " $\n";
       }
     }
 }
@@ -61,3 +64,4 @@ void TRIE::printResultingTrie(map<int, vector<char>> mapTrie) {
       cout << "\n";
   }
 }
+

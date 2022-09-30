@@ -30,7 +30,8 @@ int main () {
   graph.addText("acdf");
   graph.addText("holoo");
   graph.addText("halos");
-  cout << "TRIE: ";
+  cout << "TRIE: \n";
+  //map<int, vector<char>> resultingTrie;
   map<int, vector<char>> resultingTrie;
   graph.getGraph(graph.root, 0, resultingTrie);
   graph.printResultingTrie(resultingTrie);
@@ -38,6 +39,7 @@ int main () {
   cout << graph.searchTrie("acdf")  << "\n";
   cout << graph.searchTrie("hol")  << "\n";
   cout << graph.searchTrie("halos") << "\n";
+  cout << graph.searchTrie("gato") << "\n";
 //  int i = 0;
 //  string n, m;
 //  int mNumber, nNumber;

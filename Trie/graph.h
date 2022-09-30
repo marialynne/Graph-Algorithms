@@ -6,6 +6,7 @@
 #define ALGORITMOS_AVANZADOS_GRAPH_H
 
 #include <map>
+#include <unordered_map>
 #include <set>
 #include <string>
 #include <vector>
