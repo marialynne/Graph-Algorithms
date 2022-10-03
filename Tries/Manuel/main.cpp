@@ -111,7 +111,7 @@ int main()
         myTrie.populateSuffixTrieFrom(i);
 
     for (auto i : toSearch)
-        (myTrie.contains(i)) ? std::cout << "\nTRUE:\tSi contiene palabra: " + i : std::cout << "\n\tFALSE: No contiene palabra: " + i;
+        (myTrie.contains(i)) ? std::cout << "\nTRUE:\tSi contiene palabra: " + i : std::cout << "\nFALSE:\tNo contiene palabra: " + i;
 
     std::cout << "\n\n-----Trie-----\n";
     myTrie.print(myTrie.root, "");
