@@ -5,14 +5,23 @@ using namespace std;
 vector<vector<vector<int>>> getData();
 vector<vector<vector<int>>> convertDataToEdges(vector<vector<int>> data);
 void print(vector<vector<int>> data);
+void print(vector<vector<vector<int>>> edges);
 vector<int> dijkstrasAlgorithm(int start, vector<vector<vector<int>>> edges);
 
 int main()
 {
-    int start = 1;
     vector<vector<vector<int>>> edges = getData();
+    vector<int> minWeight;
 
-    dijkstrasAlgorithm(start, edges);
+    for (int i = 0; i < edges.size(); i++)
+    {
+        minWeight = dijkstrasAlgorithm(i + 1, edges);
+        for (int j = 0; j < minWeight.size(); j++)
+        {
+            if (!(i == j)) // Dont show node to the same node
+                cout << "Node " << i + 1 << " to Node " << j + 1 << ": " << minWeight[j] << endl;
+        }
+    }
 
     return 0;
 }
@@ -20,18 +29,21 @@ int main()
 vector<vector<vector<int>>> getData()
 {
     int n, input;
+    vector<vector<int>> data; // (n, vector<int>(n, 0))
+
     cout << "Please, enter n: ";
     cin >> n; // Here should go n to verification (positive integer)
 
-    vector<vector<int>> data(n, vector<int>(n, 0));
-
     for (int i = 0; i < n; i++)
     {
+        vector<int> row;
         for (int j = 0; j < n; j++)
         {
             cin >> input;
-            data[i][j] = input; // here should go input to verification (integer, input >= -1 )
+            row.push_back(input); // here should go the input to verification (integer, input >= -1 )
         }
+        data.push_back(row);
+        // verification '0' between the same node
     }
 
     print(data);
@@ -41,9 +53,31 @@ vector<vector<vector<int>>> getData()
 
 vector<vector<vector<int>>> convertDataToEdges(vector<vector<int>> data)
 {
+
     vector<vector<vector<int>>> edges;
     vector<vector<int>> node;
-    vector < int >> vertexWeight;
+    vector<int> vertexWeight;
+
+    for (int i = 0; i < data.size(); i++)
+    {
+        for (int j = 0; j < data[i].size(); j++)
+        {
+            if (!(data[i][j] == -1 || j == i))
+            {
+                // cout << data[i][j] << " ";
+                vertexWeight.push_back(j + 1);      // vertex
+                vertexWeight.push_back(data[i][j]); // weight
+
+                node.push_back(vertexWeight);                                 // Save vertex and weight in node
+                vertexWeight.erase(vertexWeight.begin(), vertexWeight.end()); // Delete data of vertexWeight
+            }
+        }
+
+        edges.push_back(node);                // save node in edges
+        node.erase(node.begin(), node.end()); // Delete data of node
+    }
+
+    print(edges);
 
     return edges;
 }
@@ -79,11 +113,34 @@ vector<int> dijkstrasAlgorithm(int start, vector<vector<vector<int>>> edges)
 
 void print(vector<vector<int>> data)
 {
+    cout << "\nYour input data: " << endl;
     for (auto i : data)
     {
         cout << "\t";
-        for (auto j : data[0])
-            cout << i[j] << " ";
+        for (auto j : i)
+            cout << j << " ";
         cout << "\n";
     }
+    cout << endl;
+}
+
+void print(vector<vector<vector<int>>> edges)
+{
+    cout << "\nEdges (vertex, weight):" << endl;
+    for (int i = 0; i < edges.size(); i++)
+    {
+        cout << "Node " << i + 1 << ": [";
+        for (auto j : edges[i])
+        {
+            cout << "[";
+            for (auto k : j)
+            {
+                cout << k << ",";
+            }
+            cout << "],";
+        }
+        cout << "]";
+        cout << endl;
+    }
+    cout << endl;
 }
