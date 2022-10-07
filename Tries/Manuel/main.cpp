@@ -2,9 +2,8 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
-#include <iostream>
-#include <unordered_map>
 #include <regex>
+#include <iostream>
 bool stringVerification(std::string word);
 std::vector<std::string> inputData(int num);
 
