@@ -57,7 +57,7 @@ void floyd(vector<vector<int>> data) // Time: O(n³)
     print(data);
 }
 
-void everyNodeDijkstra(vector<vector<vector<int>>> edges)
+void everyNodeDijkstra(vector<vector<vector<int>>> edges) // Time: O(n²)
 {
     cout << "Dijkstra:" << endl;
     vector<int> minWeight;

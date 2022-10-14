@@ -1,6 +1,6 @@
 /*
-* Complexity: O(2^n)
-*/
+ * Complexity: O(2^n)
+ */
 
 #include <iostream>
 #include <regex>
@@ -10,46 +10,64 @@ using namespace std;
 
 int accum[] = {0, 0};
 
-bool regexNumber(string numb){
-     const regex expReg("^[0-9]+$");
-     return regex_match(numb, expReg);
+bool regexNumber(string numb)
+{
+    const regex expReg("^[0-9]+$");
+    return regex_match(numb, expReg);
 }
 
-void knapsack(int w[], int v[], int key, int capacity, int items, int value){
-    if(value > accum[1]){
-        accum[0] = items;
-        accum[1] = value;
+void knapsack(int w[], int v[], int key, int capacity, int items, int value)
+{
+    // key = indexRow
+    // capacity = 10
+    // w
+    // v
+    if (value > accum[1])
+    {
+        accum[0] = items; // element
+        accum[1] = value; // weight
     }
 
-    if(key == 0 || capacity == 0){
+    if (key == 0 || capacity == 0)
+    {
         return;
-    }else if(w[key] > capacity){
+    }
+    else if (w[key] > capacity)
+    {
         knapsack(w, v, key - 1, capacity, items, value);
-    }else{
+    }
+    else
+    {
         knapsack(w, v, key - 1, capacity, items, value);
         knapsack(w, v, key - 1, capacity - w[key], items + 1, value + v[key]);
     }
 }
 
-void init(){
+void init()
+{
 
-    cout<<"Bienvenido a Knapsack.\n";
+    coutgetline(cin, N);
+    cin.clear();
+    fflush(stdin);
+    << "Bienvenido a Knapsack.\n";
 
     string N = "0";
 
-    while(true){
+    while (true)
+    {
 
-        
-        cout<<"Ingresa el numero de elementos: ";
-        getline(cin, N);
-        cin.clear();
-	    fflush(stdin);
+        cout << "Ingresa el numero de elementos: ";
 
-        if(!regexNumber(N)){
-            cout<<"ERROR: Solo se aceptan caracteres numericos del 0 al 9, sin espacios.\n";
-        }else if(stoi(N) < 3){
-            cout<<"ERROR: Se requiere de un valor de n >= 3.\n";
-        }else{
+        if (!regexNumber(N))
+        {
+            cout << "ERROR: Solo se aceptan caracteres numericos del 0 al 9, sin espacios.\n";
+        }
+        else if (stoi(N) < 3)
+        {
+            cout << "ERROR: Se requiere de un valor de n >= 3.\n";
+        }
+        else
+        {
             break;
         }
     }
@@ -61,22 +79,28 @@ void init(){
 
     int i = 1;
 
-    cout<<"\n";
-    cout<<"Valores de elementos:\n";
-    while(i <= n){
+    cout << "\n";
+    cout << "Valores de elementos:\n";
+    while (i <= n)
+    {
 
         string currentN;
 
-        cout<<"("<<i<<"): ";
+        cout << "(" << i << "): ";
         getline(cin, currentN);
         cin.clear();
-	    fflush(stdin);
+        fflush(stdin);
 
-        if(!regexNumber(currentN)){
-            cout<<"ERROR: Solo se aceptan caracteres numericos del 0 al 9, sin espacios.\n";
-        }else if(stoi(currentN) < 1){
-            cout<<"ERROR: Se requiere de un valor de n >= 1.\n";
-        }else{
+        if (!regexNumber(currentN))
+        {
+            cout << "ERROR: Solo se aceptan caracteres numericos del 0 al 9, sin espacios.\n";
+        }
+        else if (stoi(currentN) < 1)
+        {
+            cout << "ERROR: Se requiere de un valor de n >= 1.\n";
+        }
+        else
+        {
             value[i] = stoi(currentN);
             i++;
         }
@@ -87,55 +111,68 @@ void init(){
 
     i = 1;
 
-    cout<<"\n";
-    cout<<"Pesos de elementos:\n";
-    while(i <= n){
+    cout << "\n";
+    cout << "Pesos de elementos:\n";
+    while (i <= n)
+    {
 
         string currentN;
 
-        cout<<"("<<i<<"): ";
+        cout << "(" << i << "): ";
         getline(cin, currentN);
         cin.clear();
-	    fflush(stdin);
+        fflush(stdin);
 
-        if(!regexNumber(currentN)){
-            cout<<"ERROR: Solo se aceptan caracteres numericos del 0 al 9, sin espacios.\n";
-        }else if(stoi(currentN) < 1){
-            cout<<"ERROR: Se requiere de un valor de n >= 1.\n";
-        }else{
+        if (!regexNumber(currentN))
+        {
+            cout << "ERROR: Solo se aceptan caracteres numericos del 0 al 9, sin espacios.\n";
+        }
+        else if (stoi(currentN) < 1)
+        {
+            cout << "ERROR: Se requiere de un valor de n >= 1.\n";
+        }
+        else
+        {
             weight[i] = stoi(currentN);
             i++;
         }
     }
 
-    string maxWeight ="0";
+    string maxWeight = "0";
 
-    cout<<"\n";
-    cout<<"Pesos maximo de mochila:\n";
+    cout << "\n";
+    cout << "Pesos maximo de mochila:\n";
 
-    while(true){
+    while (true)
+    {
 
         getline(cin, maxWeight);
         cin.clear();
-	    fflush(stdin);
+        fflush(stdin);
 
-        if(!regexNumber(maxWeight)){
-            cout<<"ERROR: Solo se aceptan caracteres numericos del 0 al 9, sin espacios.\n";
-        }else if(stoi( maxWeight) < 1){
-            cout<<"ERROR: El valor de Peso Max debe ser >= 1.\n";
-        }else{
+        if (!regexNumber(maxWeight))
+        {
+            cout << "ERROR: Solo se aceptan caracteres numericos del 0 al 9, sin espacios.\n";
+        }
+        else if (stoi(maxWeight) < 1)
+        {
+            cout << "ERROR: El valor de Peso Max debe ser >= 1.\n";
+        }
+        else
+        {
             break;
         }
     }
 
     knapsack(weight, value, n, stoi(maxWeight), 0, 0);
 
-    cout<<"\n";
-    cout<<"Punto optimo encontrado: \n";
-    cout<<"Valor: "<<accum[1]<<", con "<<accum[0]<<" elementos.\n";
+    cout << "\n";
+    cout << "Punto optimo encontrado: \n";
+    cout << "Valor: " << accum[1] << ", con " << accum[0] << " elementos.\n";
 }
 
-int main(){
+int main()
+{
 
     init();
 
