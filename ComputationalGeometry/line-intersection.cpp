@@ -12,9 +12,25 @@ class Line {
   public:
     pair<int, int> p1;
     pair<int, int> p2;
+    Line() {
+      this->p1 = {0, 0};
+      this->p2 = {0, 0};
+    }
     Line (pair<int, int> point1, pair<int, int> point2) {
       this->p1 = point1;
       this->p2 = point2;
+    }
+};
+
+class Node {
+  public:
+    Node* right;
+    Node* left;
+    Line value;
+    Node (Node* rightNode, Node* leftNode, Line nodeValue) {
+      this->right = rightNode;
+      this->left = leftNode;
+      this->value = nodeValue;
     }
 };
 
@@ -63,10 +79,17 @@ bool intersect (Line line1, Line line2) {
 };
 
 int main () {
- //vector<Line> lines = getData();
  Line line1 = Line({0, 0}, {1, 1});
  Line line2 = Line({-2, 2}, {1, 0});
+ Line line3 = Line({-6, 2}, {-4, 4});
+ Line line4 = Line({0, 2}, {-2, 6});
+ Line line5 = Line({2, 4}, {4, 0});
+ Line line6 = Line({2, 2}, {4, 4});
 
- bool intersectan = intersect(line1, line2);
- cout << "\n" << intersectan << "\n";
+ // bool intersectan = intersect(line1, line2);
+
+
+
+ // AQUI EMPEIZA ESTE PEDOOU
+
 };
