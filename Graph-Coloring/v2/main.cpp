@@ -6,22 +6,24 @@ void print(vector<vector<int>> data);
 void print(vector<tuple<int, int, int, vector<int>>> nodes);
 vector<tuple<int, int, int, vector<int>>> getEdges(vector<vector<int>> matrix);
 void graphColoring(vector<tuple<int, int, int, vector<int>>> nodes);
+bool checkMatrix(vector<vector<int>> data);
 
 int main()
 {
-    // vector<vector<int>> matrix = getData();
-    vector<vector<int>> matrix = {{0, 1, 0, 0, 1},
+    vector<vector<int>> matrix = getData();
+    /*vector<vector<int>> matrix = {{0, 1, 0, 0, 1},
                                   {1, 0, 0, 0, 1},
                                   {0, 0, 0, 1, 1},
                                   {0, 0, 1, 0, 0},
-                                  {0, 1, 1, 1, 0}};
+                                  {0, 1, 1, 1, 0}}
+    */
     vector<tuple<int, int, int, vector<int>>> nodes = getEdges(matrix);
     graphColoring(nodes);
 
     return 0;
 }
 
-void graphColoring(vector<tuple<int, int, int, vector<int>>> nodes)
+void graphColoring(vector<tuple<int, int, int, vector<int>>> nodes) // Time: O(n²)
 {
     vector<int> colors = {1, 2, 3, 4};
     int nodeToSearch;
@@ -43,7 +45,7 @@ void graphColoring(vector<tuple<int, int, int, vector<int>>> nodes)
     print(nodes);
 }
 
-vector<tuple<int, int, int, vector<int>>> getEdges(vector<vector<int>> matrix)
+vector<tuple<int, int, int, vector<int>>> getEdges(vector<vector<int>> matrix) // Time: O(n²)
 {
     vector<tuple<int, int, int, vector<int>>> nodes; // node - count
 
@@ -71,30 +73,79 @@ vector<tuple<int, int, int, vector<int>>> getEdges(vector<vector<int>> matrix)
     return nodes;
 }
 
-vector<vector<int>> getData()
+vector<vector<int>> getData() // Time: O(n²)
 {
-
     vector<vector<int>> data;
+    char nchar[100];
     int n, input;
-    cin >> n;
+    regex regexN("([2-9])+");
 
-    for (int i = 0; i < n; i++)
+    cout << "Please, enter n (number of nodes): ";
+    cin.getline(nchar, 100);
+
+    while (!regex_match(nchar, regexN)) // Here should go n to verification (positive integer)
     {
-        vector<int> row;
-        for (int j = 0; j < n; j++)
-        {
-            cin >> input;
-            row.push_back(input);
-        }
-        data.push_back(row);
+        cout << "[ERROR]: n must be a number greater than 1. \nPlease, enter n (number of nodes): ";
+        cin.getline(nchar, 100);
     }
 
-    // print(data);
+    n = stoi(nchar);
+
+    cout << "Please, enter your data (number per row  separated with space): " << endl;
+
+    do
+    {
+        data.clear();
+        for (int i = 0; i < n; i++)
+        {
+            vector<int> row;
+            for (int j = 0; j < n; j++)
+            {
+                cin >> input;
+                row.push_back(input);
+                // here should go the input to verification (integer, input >= -1 )
+            }
+            data.push_back(row);
+            // Here there should be a '0' check between the same node
+        }
+    } while (checkMatrix(data));
 
     return data;
 }
 
-void print(vector<vector<int>> data)
+bool checkMatrix(vector<vector<int>> data) // Time: O(n²)
+{
+
+    for (int i = 0; i < data.size(); i++)
+    {
+        for (int j = 0; j < data.size(); j++)
+        {
+            if (i == j)
+            {
+                if (!(data[i][j] == 0))
+                {
+                    cout << "\n[ERROR]: Invalid data, there must be 0 between i == j" << endl;
+                    cout << "Invaded data: " << data[i][j] << endl;
+                    cout << "Please, enter your data again: " << endl;
+                    return true;
+                }
+            }
+            else
+            {
+                if (data[i][j] < 0)
+                {
+                    cout << "\n[ERROR]: Negative numbers are not accepted" << endl;
+                    cout << "Invaded data: " << data[i][j] << endl;
+                    cout << "Please, enter your data again: " << endl;
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void print(vector<vector<int>> data) // Time: O(n²)
 {
     for (auto i : data)
     {
@@ -106,11 +157,11 @@ void print(vector<vector<int>> data)
     }
 }
 
-void print(vector<tuple<int, int, int, vector<int>>> nodes)
+void print(vector<tuple<int, int, int, vector<int>>> nodes) // Time: O(n²)
 {
     for (int i = 0; i < nodes.size(); i++)
     {
-        cout << "Node: " << get<0>(nodes[i]) << " Degree: " << get<1>(nodes[i]) << " Color: " << get<2>(nodes[i]) << " Edges: [ ";
+        cout << "Node: " << get<0>(nodes[i]) << "   Degree: " << get<1>(nodes[i]) << "   Color: " << get<2>(nodes[i]) << "\tEdges: [ ";
         for (auto j : get<3>(nodes[i]))
             cout << j << " ";
         cout << "]\n";
