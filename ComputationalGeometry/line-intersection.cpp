@@ -73,16 +73,21 @@ public:
     this->steps.resize(distance(this->steps.begin(), it));
   }
 
-  void searchForIntersection() {
-    for (int line1 = 0; line1 < segmentsToCheck.size(); line1++) {
-      for (int line2 = 0; line2 < segmentsToCheck.size(); line2++) {
-        if (line1 != line2) {
+  void searchForIntersection()
+  {
+    for (int line1 = 0; line1 < segmentsToCheck.size(); line1++)
+    {
+      for (int line2 = 0; line2 < segmentsToCheck.size(); line2++)
+      {
+        if (line1 != line2)
+        {
           Line tempLine1 = this->segmentsToCheck[line1];
           Line tempLine2 = this->segmentsToCheck[line2];
           string line1_id = tempLine1.p1.identifier + tempLine1.p2.identifier;
           string line2_id = tempLine2.p1.identifier + tempLine2.p2.identifier;
 
-          if (checkedLines[line1_id].find(line2_id) == checkedLines[line1_id].end()) {
+          if (checkedLines[line1_id].find(line2_id) == checkedLines[line1_id].end())
+          {
             checkedLines[line1_id].insert(line2_id);
             checkedLines[line2_id].insert(line1_id);
             cout << tempLine1.p1.identifier << tempLine1.p2.identifier << " " << tempLine2.p1.identifier << tempLine2.p2.identifier << " " << intersect(tempLine1, tempLine2) << endl;
@@ -98,27 +103,36 @@ public:
     set<string> linesWithoutComparison; // Lines que no se comparan porque estan solas en esa parte del sweeping line.
     cout << "\nIntersections: " << endl;
 
-    for (int stepAtY : this->steps) {
-      for (int index = 0; index < this->segments.size(); index++) {
+    for (int stepAtY : this->steps)
+    {
+      for (int index = 0; index < this->segments.size(); index++)
+      {
         Line line = this->segments[index];
         string line_id = line.p1.identifier + line.p2.identifier;
 
-        if (line.p1.point.second == stepAtY) {
+        if (line.p1.point.second == stepAtY)
+        {
           this->segmentsToCheck.push_back(line);
           searchForIntersection();
         }
-        if (line.p2.point.second > stepAtY) {
+        if (line.p2.point.second > stepAtY)
+        {
           vector<Line>::iterator it;
-          it = find_if(this->segmentsToCheck.begin(), this->segmentsToCheck.end(), [line](Line const& nextLine){ return nextLine.p1.identifier == line.p1.identifier && nextLine.p2.identifier == line.p2.identifier; });
-          if (it != this->segmentsToCheck.end()) this->segmentsToCheck.erase(it);
-          if (checkedLines[line_id].empty()) linesWithoutComparison.insert(line_id);
+          it = find_if(this->segmentsToCheck.begin(), this->segmentsToCheck.end(), [line](Line const &nextLine)
+                       { return nextLine.p1.identifier == line.p1.identifier && nextLine.p2.identifier == line.p2.identifier; });
+          if (it != this->segmentsToCheck.end())
+            this->segmentsToCheck.erase(it);
+          if (checkedLines[line_id].empty())
+            linesWithoutComparison.insert(line_id);
         }
-        if (line.p2.point.second == stepAtY && checkedLines[line_id].empty()) linesWithoutComparison.insert(line_id);
+        if (line.p2.point.second == stepAtY && checkedLines[line_id].empty())
+          linesWithoutComparison.insert(line_id);
       }
     }
 
-    for (string line : linesWithoutComparison) {
-      cout << line << " No se intersecta con ninguna linea \n";
+    for (string line : linesWithoutComparison)
+    {
+      cout << line << " \tDoes not intersect with any line \n";
     }
   }
 

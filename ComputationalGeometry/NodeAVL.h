@@ -1,5 +1,3 @@
-// Manuel Camacho Padilla [A0142315]
-// Arbol de estructura de datos (AVL)
 #pragma once
 #include <iostream>
 #include <string>
@@ -13,7 +11,6 @@ private:
   int fe;
   NodeAVL *left;
   NodeAVL *right;
-  string texto;
 
 public:
   // defualt
@@ -27,15 +24,10 @@ public:
   int getFe();
   NodeAVL *getLeft();
   NodeAVL *getRight();
-  string getTexto();
 
   // setters
   void setData(int);
   void setFe(int);
   void setLeft(NodeAVL *);
   void setRight(NodeAVL *);
-  void setTexto(string);
-
-  // operators
-  friend std::ostream &operator<<(std::ostream &, NodeAVL *);
 };
