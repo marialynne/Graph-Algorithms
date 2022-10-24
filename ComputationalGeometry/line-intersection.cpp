@@ -5,6 +5,8 @@
 #include <set>
 #include <map>
 #include <string>
+#include <regex>
+#include <cstring>
 using namespace std;
 
 class Coordinate
@@ -146,7 +148,7 @@ public:
 
   void print(vector<Line> segments)
   {
-    cout << "\nYour given lines are: " << endl;
+    cout << "\nYour given lines are (ordered): " << endl;
     for (auto i : segments)
       cout << i.p1.identifier << ": (" << i.p1.point.first << ", " << i.p1.point.second << ")\t" << i.p2.identifier << ": (" << i.p2.point.first << ", " << i.p2.point.second << ") " << endl;
   }
@@ -190,32 +192,93 @@ public:
   };
 };
 
-vector<Line> getData()
+int numberValidation(string msg) // Time: O(n)
 {
-  // YA NO ENTENDI COMO RECIBIR DATOS - DLV
-  vector<Line> lines;
-  int numberLines;
+  regex regexN("[0-9]+");
+  char input[100];
 
-  cout << "Ingresa un numero multiplo de 4"
-       << "\n";
-  cin >> numberLines;
+  cout << msg;
+  cin.getline(input, 100);
 
-  return lines;
+  while (!regex_match(input, regexN))
+  {
+    cout << "\n\t[Invalid input]: Not a number" << endl;
+    cout << msg;
+    cin.getline(input, 100);
+  }
+
+  return stoi(input);
+}
+
+bool dictionaryValidation(vector<char> dictionary, char search_element)
+{
+  vector<char>::iterator it;
+  it = find(dictionary.begin(), dictionary.end(), search_element);
+  cout << search_element << endl;
+  for (auto i : dictionary)
+    cout << i << " ";
+  return (it != dictionary.end());
+}
+
+Graph getData()
+{
+  Graph inputGraph;
+
+  cout << "Please, read:\n\n"
+       << "\tINSTRUCTIONS: N is an integer multiple of 4, representing the coordinates of a line/segment,\n"
+       << "\twhose representation is x1,y1 and x2, y2.Remember that each coordinate has an identifier,\n"
+       << "\tthis should be only one letter belonging to the ascci table, so you do not need to put alphabetic letters if you want.\n"
+       << "\tBut each identifier must be unique.\n"
+       << "\tExample: Line  -->  A: (-6, 4)      B: (-5, 0)\n"
+       << endl;
+
+  int n, x1, y1, x2, y2;
+  vector<char> dictionary;
+  string msgN = "Plaese, type N: ", msgX1 = "\tx1: ", msgY1 = "\ty1: ", msgX2 = "\tx2: ", msgY2 = "\ty2: ";
+  regex regexN("[0-9]");
+  char identifier_1, identifier_2;
+  int j = 0;
+
+  n = numberValidation(msgN);
+
+  while (!(((n >> 2) << 2) == n))
+  {
+    cout << "\n\t[Invalid input]: Not multiple of 4 " << endl;
+    n = numberValidation(msgN);
+  }
+
+  for (int i = 0; i < n / 4; i++)
+  {
+    cout << endl;
+    cout << "---------------------" << endl;
+    cout << "|       Line " << i + 1 << "      |" << endl;
+    cout << "---------------------" << endl;
+
+    cout << "Coordenate 1" << endl;
+    identifier_1 = char(65 + j);
+    j++;
+    cout << "\tIdentifier 1: " << identifier_1 << endl;
+
+    x1 = numberValidation(msgX1);
+    y1 = numberValidation(msgY1);
+
+    cout << "Coordenate 2" << endl;
+    identifier_2 = char(65 + j);
+    j++;
+    cout << "\tIdentifier 1: " << identifier_2 << endl;
+
+    x2 = numberValidation(msgX2);
+    y2 = numberValidation(msgY2);
+
+    inputGraph.insertLine({x1, y1}, identifier_1, {x2, y2}, identifier_2);
+  }
+
+  return inputGraph;
 };
 
 int main()
 {
-
-  Graph myGraph;
-  myGraph.insertLine({-6, 4}, 'A', {-5, 0}, 'B');
-  myGraph.insertLine({-1, 0}, 'C', {-4, 2}, 'D');
-  myGraph.insertLine({-6, -4}, 'E', {-4, -2}, 'F');
-  myGraph.insertLine({-5, 7}, 'G', {-4, 4}, 'H');
-  myGraph.insertLine({1, 7}, 'I', {-6, 3}, 'J');
-  myGraph.insertLine({-2, 6}, 'K', {1, 3}, 'L');
-  myGraph.insertLine({2, -1}, 'M', {2, 2}, 'N');
-  myGraph.insertLine({2, 1}, 'O', {2, 4}, 'P');
-  myGraph.insertLine({-2, 12}, 'Q', {-2, 10}, 'R');
+  Graph myGraph = getData();
   myGraph.print(myGraph.segments);
   myGraph.sweepingLine();
 };
