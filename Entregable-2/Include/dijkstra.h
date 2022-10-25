@@ -1,21 +1,25 @@
 #include <iostream>
 #include <vector>
+#include <queue>
+using namespace std;
 
-void everyNodeDijkstra(vector<vector<vector<int>>> edges);
-vector<int> dijkstrasAlgorithm(int start, vector<vector<vector<int>>> edges);
-vector<vector<vector<int>>> convertDataToEdges(vector<vector<int>> data);
+void everyNodeDijkstra(vector<vector<vector<float>>> edges);
+vector<float> dijkstrasAlgorithm(float start, vector<vector<vector<float>>> edges);
+vector<vector<vector<float>>> convertDataToEdges(vector<vector<float>> data);
+void print(vector<vector<float>> data);
+void print(vector<vector<vector<float>>> edges);
 
-vector<int> dijkstrasAlgorithm(int start, vector<vector<vector<int>>> edges) // Time: O(n²)
+vector<float> dijkstrasAlgorithm(float start, vector<vector<vector<float>>> edges) // Time: O(n²)
 {
-    priority_queue<pair<int, int>> pq;
-    vector<int> shortestPath(edges.size(), -1);
+    priority_queue<pair<float, float>> pq;
+    vector<float> shortestPath(edges.size(), -1);
 
     pq.push({start, 0});
     shortestPath[start] = 0;
 
     while (!pq.empty())
     {
-        pair<int, int> x = pq.top();
+        pair<float, float> x = pq.top();
         pq.pop();
 
         for (auto s : edges[x.first])
@@ -30,12 +34,11 @@ vector<int> dijkstrasAlgorithm(int start, vector<vector<vector<int>>> edges) // 
     return shortestPath;
 }
 
-vector<vector<vector<int>>> convertDataToEdges(vector<vector<int>> data) // Time: O(n²)
+vector<vector<vector<float>>> convertDataToEdges(vector<vector<float>> data) // Time: O(n²)
 {
-
-    vector<vector<vector<int>>> edges;
-    vector<vector<int>> node;
-    vector<int> vertexWeight;
+    vector<vector<vector<float>>> edges;
+    vector<vector<float>> node;
+    vector<float> vertexWeight;
 
     for (int i = 0; i < data.size(); i++)
     {
@@ -60,17 +63,49 @@ vector<vector<vector<int>>> convertDataToEdges(vector<vector<int>> data) // Time
     return edges;
 }
 
-void everyNodeDijkstra(vector<vector<vector<int>>> edges) // Time: O(n²)
+void everyNodeDijkstra(vector<vector<vector<float>>> edges) // Time: O(n²)
 {
     cout << "Dijkstra:" << endl;
-    vector<int> minWeight;
+    vector<float> minWeight;
     for (int i = 0; i < edges.size(); i++)
     {
         minWeight = dijkstrasAlgorithm(i, edges); // + 1
         for (int j = 0; j < minWeight.size(); j++)
         {
             if (!(i == j)) // Dont show node to the same node
-                cout << "Node " << i + 1 << " to Node " << j + 1 << ": " << minWeight[j] << endl;
+                cout << "Node " << char(65 + i) << " to Node " << char(65 + j) << ": " << minWeight[j] << endl;
         }
     }
+}
+
+void print(vector<vector<float>> data) // Time: O(n²)
+{
+    for (auto i : data)
+    {
+        cout << "\t";
+        for (auto j : i)
+            cout << j << " ";
+        cout << "\n";
+    }
+    cout << endl;
+}
+
+void print(vector<vector<vector<float>>> edges) // Time: O(n²)
+{
+    cout << "\nEdges (vertex, weight):" << endl;
+    for (int i = 0; i < edges.size(); i++)
+    {
+        cout << "Node " << char(65 + i) << ": [ ";
+        for (int j = 0; j < edges[i].size(); j++)
+        {
+            cout << "[";
+
+            cout << char(65 + edges[i][j][0]) << "," << edges[i][j][1];
+
+            cout << "] ";
+        }
+        cout << "]";
+        cout << endl;
+    }
+    cout << endl;
 }
