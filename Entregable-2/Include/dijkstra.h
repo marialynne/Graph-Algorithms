@@ -39,18 +39,37 @@ vector<vector<vector<float>>> convertDataToEdges(vector<vector<float>> data) // 
     vector<vector<vector<float>>> edges;
     vector<vector<float>> node;
     vector<float> vertexWeight;
+    vector<float> empty;
 
     for (int i = 0; i < data.size(); i++)
     {
+        int sumEmpty = 0;
         for (int j = 0; j < data[i].size(); j++)
         {
             if (!(data[i][j] == -1 || j == i))
             {
-                vertexWeight.push_back(j);          // vertex + 1
+                vertexWeight.push_back(j);          // vertex
                 vertexWeight.push_back(data[i][j]); // weight
 
                 node.push_back(vertexWeight);                                 // Save vertex and weight in node
                 vertexWeight.erase(vertexWeight.begin(), vertexWeight.end()); // Delete data of vertexWeight
+            }
+
+            if (data[i][j] == -1)
+            {
+                sumEmpty++;
+                empty.push_back(data[i][j]);
+
+                if (sumEmpty == data.size()) // if is the same currentRow
+                {
+                    if (empty.size() == data.size())
+                    {
+                        edges.push_back({});                     // Save empty edge
+                        empty.erase(empty.begin(), empty.end()); // Remove completed vector
+                    }
+                }
+                else // Remove not completed empty vector
+                    empty.erase(empty.begin(), empty.end());
             }
         }
 
@@ -100,7 +119,7 @@ void print(vector<vector<vector<float>>> edges) // Time: O(n²)
         {
             cout << "[";
 
-            cout << char(65 + edges[i][j][0]) << "," << edges[i][j][1];
+            cout << char(65 + edges[i][j][0]) << ", " << edges[i][j][1];
 
             cout << "] ";
         }
