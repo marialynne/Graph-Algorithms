@@ -21,14 +21,17 @@ float travllingSalesmanAlgorithm(vector<vector<float>> graph, int node)
 
         for (int i = 0; i < vertex.size(); i++)
         {
+
             if (graph[currentNode][vertex[i]] == -1 || currentNode == -1)
             {
                 current_pathweight = INT_MAX;
                 break;
             }
             current_pathweight += graph[currentNode][vertex[i]];
+            cout << currentNode << " " << vertex[i] << "  " << current_pathweight << endl;
             currentNode = vertex[i];
         }
+        cout << endl;
 
         min_path = min(min_path, current_pathweight);
 
