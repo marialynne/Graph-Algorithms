@@ -41,30 +41,30 @@ vector<vector<string>> readData(string path) // Time: O(n)
 
     if (myfile.is_open())
     {
-        while (getline(myfile, line)) {
-          std::istringstream iss(line);
-          string number;
-          while (iss >> number)
-            lines.push_back(number);
-          matrix.push_back(lines);
-          lines.clear();
+        if (myfile.peek() == std::ifstream::traits_type::eof())
+        {
+            cout << "\n\t<< The file is empty >> ";
+            exit(0);
+        }
+
+        while (getline(myfile, line))
+        {
+            std::istringstream iss(line);
+            string number;
+            while (iss >> number)
+                lines.push_back(number);
+            matrix.push_back(lines);
+            lines.clear();
         }
         myfile.close();
     }
+    else
+    {
+        cout << "\n\t<< File does not exist >>";
+        exit(0);
+    }
 
     return matrix;
-}
-
-string removeSpaces(string str)
-{
-    int i = 0, j = 0;
-    while (str[i])
-    {
-        if (str[i] != ' ')
-            str[j++] = str[i];
-        i++;
-    }
-    return str;
 }
 
 void print(vector<vector<string>> matrix)
