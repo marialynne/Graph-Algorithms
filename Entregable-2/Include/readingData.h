@@ -51,9 +51,11 @@ vector<vector<string>> readData(string path) // Time: O(n)
         {
             std::istringstream iss(line);
             string number;
+
             while (iss >> number)
                 lines.push_back(number);
-            matrix.push_back(lines);
+            if (lines.size() > 0)
+                matrix.push_back(lines);
             lines.clear();
         }
         myfile.close();
