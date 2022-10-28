@@ -10,7 +10,6 @@ using namespace std;
 float findMaxFlow (vector<vector<float>> graph, vector<vector<float>> &auxGraph, int source, int destination);
 
 void maxFlow(vector<vector<float>> graph, int numNodes) {
-  //vector<vector<float>> auxMatrix (numNodes, vector<float> (numNodes, 0));
   vector<vector<float>> auxMatrix = graph;
   int initialNode = 0, finalNode = numNodes - 1;
   float maximumFlow = findMaxFlow(graph, auxMatrix, initialNode, finalNode);
@@ -24,8 +23,6 @@ float BSF (vector<vector<float>> residualGraph, int source, int destination, vec
   bsfQueue.push(source);
   float flow = INFINITY;
 
-  vector<char> printNodes = {'A', 'B', 'C', 'D', 'E', 'F', 'T'};
-
   while(!bsfQueue.empty()) {
     int currentNode = bsfQueue.front();
     bsfQueue.pop();
@@ -34,9 +31,7 @@ float BSF (vector<vector<float>> residualGraph, int source, int destination, vec
       if (prevConnection[nextNode] == -1 && residualGraph[currentNode][nextNode] > 0) {
         prevConnection[nextNode] = currentNode;
         float nextFlow = min(flow, residualGraph[currentNode][nextNode]);
-        cout << printNodes[currentNode] << " -> " << printNodes[nextNode] << "  (" << residualGraph[currentNode][nextNode] << ")" <<"\n";
         if (nextNode == destination) {
-          cout << "DESTINATION REACHED => " << nextFlow << "\n\n";
           return nextFlow;
         }
         flow = nextFlow;
@@ -47,15 +42,15 @@ float BSF (vector<vector<float>> residualGraph, int source, int destination, vec
   return -1;
 }
 
-float findMaxFlow (vector<vector<float>> graph, vector<vector<float>> &auxGraph, int source, int destination) {
+float findMaxFlow (vector<vector<float>> graph, vector<vector<float>> &auxGraph, int source, int destination) { // O(Ef) - Edges * flow
   float flow = 0;
   vector<int> prevConnection (graph.size(), -1);
   float newFlow = 0;
 
   newFlow = BSF(auxGraph, source, destination, prevConnection);
-  while (newFlow >= 0) {
+  while (newFlow >= 0) { // O(newFlow)
     flow += newFlow;
-    for (int index = destination; index != source; index = prevConnection[index]) {
+    for (int index = destination; index != source; index = prevConnection[index]) { // O(n)
       int prevNode = prevConnection[index];
       auxGraph[prevNode][index] -= newFlow;
       auxGraph[index][prevNode] += newFlow;
