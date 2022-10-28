@@ -14,7 +14,7 @@ void maxFlow(vector<vector<float>> graph, int numNodes) // Time: O(1)
   vector<vector<float>> auxMatrix = graph;
   int initialNode = 0, finalNode = numNodes - 1;
   float maximumFlow = findMaxFlow(graph, auxMatrix, initialNode, finalNode);
-  cout << "\n[Maximum flow]: " << maximumFlow << "\n";
+  cout << "\n[Maximum flow] (" << char(65 + initialNode) << " -> " << char(65 + finalNode) << "): " << maximumFlow << "\n";
 }
 
 float BSF(vector<vector<float>> residualGraph, int source, int destination, vector<int> &prevConnection) // Time: O(n²)
