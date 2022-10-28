@@ -3,6 +3,8 @@
 #include <queue>
 using namespace std;
 
+vector<vector<vector<float>>> edges;
+
 void everyNodeDijkstra(vector<vector<vector<float>>> edges);
 vector<float> dijkstrasAlgorithm(float start, vector<vector<vector<float>>> edges);
 vector<vector<vector<float>>> convertDataToEdges(vector<vector<float>> data);
@@ -36,7 +38,6 @@ vector<float> dijkstrasAlgorithm(float start, vector<vector<vector<float>>> edge
 
 vector<vector<vector<float>>> convertDataToEdges(vector<vector<float>> data) // Time: O(n²)
 {
-    vector<vector<vector<float>>> edges;
     vector<vector<float>> node;
     vector<float> vertexWeight;
     vector<float> empty;
@@ -84,7 +85,7 @@ vector<vector<vector<float>>> convertDataToEdges(vector<vector<float>> data) // 
 
 void everyNodeDijkstra(vector<vector<vector<float>>> edges) // Time: O(n²)
 {
-    cout << "Dijkstra:" << endl;
+    cout << "[Dijkstra]:" << endl;
     vector<float> minWeight;
     for (int i = 0; i < edges.size(); i++)
     {

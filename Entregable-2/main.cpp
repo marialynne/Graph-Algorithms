@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "Include/readingData.h"
 #include "Include/dijkstra.h"
 #include "Include/travellingSalesman.h"
 #include "Include/maximumFlow.h"
@@ -10,98 +11,59 @@ using namespace std;
 
 int main()
 {
-    /* //                                    A  B   C   D   E    F
-    vector<vector<float>> firstMatrix = {{0, 16, 45, 32, 5.3, 0}, // A
-                                         {0.5, 0, 5, 12, 0, 0},   // B
-                                         {3, 18, 0, 7, 0, 0},     // C
-                                         {4, 21, 10, 0, 0, 0},    // D
-                                         {0, 20.2, 0, 0, 0},      // E
-                                         {0, 0, 0, 0, 0, 0}};     // F */
+    vector<vector<string>> stringMatrix1 = getMatrix1();
+    vector<vector<string>> stringMatrix2 = getMatrix2();
+    /* stringMatrix1 = {{"0", "16", "45", "32"},
+                     {"16", "0", "18", "21"},
+                     {"45", "18", "0", "7"},
+                     {"32", "21", "7", "0"}};
+    stringMatrix2 = {{"0", "1", "45", "32"},
+                     {"16", "0", "18", "21"},
+                     {"45", "8", "0", "1"},
+                     {"32", "21", "7", "0"}}; */
 
-    vector<vector<float>> firstMatrix = {{0, 16, 45, 32, 5.3, -1},  // A
-                                         {0.5, 0, 5, 12, -1, -1},   // B
-                                         {3, 18, 0, 7, -1, -1},     // C
-                                         {4, 21, 10, 0, -1, -1},    // D
-                                         {-1, 20.2, -1, -1, 0, -1}, // E
-                                         {-1, -1, -1, -1, -1, 0}};  // F
+    cout << "\n\n--------------------VALIDATION--------------------\n\n";
 
-//    vector<vector<float>> secondMatrix = {{0, 48, 12, 18},
-//                                        {52, 0, 42, 32},
-//                                        {18, 46, 0, 56},
-//                                        {24, 36, 52, 0}};
+    vector<vector<float>> resultingMatrix1 = generalValidations(stringMatrix1, 1);
+    vector<vector<float>> resultingMatrix2 = generalValidations(stringMatrix2, 2);
 
-    vector<vector<float>> secondMatrix = {{0, 10, 8, 5, 0, 0, 0},
-                                         {0, 0, 7, 0, 6, 0, 0},
-                                         {0, 0, 0, 4, 0, 3, 0},
-                                         {0, 0, 0, 0, 0, 10, 0},
-                                         {0, 0, 0, 0, 0, 8, 2},
-                                         {0, 0, 0, 0, 0, 0, 9},
-                                         {0, 0, 0, 0, 0, 0, 0}};
+    if (resultingMatrix1.empty() || resultingMatrix2.empty())
+        cout << "\n\t<< Invalid data! >>\n";
+    else
+    {
+        cout << "\n\t<< Checking correspondence... >>\n";
 
-    vector<vector<string>> stringMatrix = {{"0", "-1", "8", "5", "-1", "-1", "-1"},
-                                            {"-1", "0", "-1", "-1", "6", "-1", "-1"},
-                                            {"2", "-1", "0", "4", "-1", "3", "-1"},
-                                            {"-1", "-1", "-1", "0", "-1", "1", "-1"},
-                                            {"-1", "-1", "-1", "-1", "0", "8", "2"},
-                                            {"-1", "-1", "-1", "-1", "-1", "0", "9"},
-                                            {"-1", "-1", "-1", "-1", "-1", "-1", "0"}};
-
-    vector<vector<string>> stringMatrix2 = {{"0", "0", "-8", "5", "0", "0", "0"},
-                                            {"0", "0", "0", "0", "6", "0", "0"},
-                                            {"0", "0", "0", "4", "0", "3", "0"},
-                                            {"0", "0", "0", "0", "0", "1", "0"},
-                                            {"0", "0", "0", "0", "0", "8", "2"},
-                                            {"0", "0", "0", "0", "0", "0", "9"},
-                                            {"0", "0", "0", "0", "0", "0", "0"}};
-
-//    vector<vector<float>> secondMatrix = {{0, 10, 0, 10, 0, 0},
-//                                         {0, 0, 4, 2, 8, 0, 0},
-//                                         {0, 0, 0, 4, 0, 3, 10},
-//                                         {0, 0, 0, 9, 0, 10, 0},
-//                                         {0, 0, 0, 0, 0, 8, 10},
-//                                         {0, 0, 0, 0, 0, 0, 0}};
-
-    vector<pair<float, float>> centrals = {{200, 500},
-                                           {300, 100},
-                                           {450, 150},
-                                           {520, 480}};
-
-
-  vector<vector<float>> resultingMatrix = generalValidations(stringMatrix, 1);
-  vector<vector<float>> resultingMatrix2 = generalValidations(stringMatrix2, 2);
-  if (resultingMatrix.empty() || resultingMatrix2.empty()) {
-    cout << "DATOS NO VALIDOS \n";
-  } else {
-    cout << "CHECANDO CORRESPONDENCIA \n";
-    bool corresponding = matrixCorrespondence(resultingMatrix, resultingMatrix2);
-    if (corresponding) {
-      cout << "MATRICES SON CORRECTAS \n";
-    } else {
-      cout << "ESTO NO CONCUERDA\n";
+        if (matrixCorrespondence(resultingMatrix1, resultingMatrix2))
+            cout << "\n\t<< Valid data! >>\n";
+        else
+            cout << "\n\t<< Invalid data! >>\n";
     }
-  }
 
-  cout << "\n\n Matriz 1 \n";
+    cout << "\n\n---------------------Matrix 1---------------------\n\n";
 
-  for (auto row : resultingMatrix) {
-    for (auto el : row) {
-      cout << el << "   ";
+    for (auto row : resultingMatrix1)
+    {
+        for (auto el : row)
+            cout << el << "\t";
+        cout << "\n";
     }
-    cout << "\n ";
-  }
 
-  cout << "\n Matriz 2 \n";
+    cout << "\n---------------------Matrix 2---------------------\n\n";
 
-  for (auto row : resultingMatrix2) {
-    for (auto el : row) {
-      cout << el << "   ";
+    for (auto row : resultingMatrix2)
+    {
+        for (auto el : row)
+            cout << el << "\t";
+        cout << "\n";
     }
-    cout << "\n ";
-  }
 
-
-    everyNodeDijkstra(convertDataToEdges(firstMatrix));
-    cout << travllingSalesmanAlgorithm(firstMatrix, 0) << endl;
-    maxFlow(secondMatrix, secondMatrix.size());
+    cout << "\n\n----------------------PART 1----------------------\n\n";
+    everyNodeDijkstra(convertDataToEdges(resultingMatrix1));
+    cout << "\n\n----------------------PART 2----------------------\n\n";
+    travellingSalesmanAlgorithm(resultingMatrix1, 0);
+    cout << "\n\n----------------------PART 3----------------------\n\n";
+    maxFlow(resultingMatrix2, resultingMatrix2.size());
+    cout << "\n\n----------------------PART 4----------------------\n\n";
+    inputsCoordinates(resultingMatrix1.size());
     return 0;
 }
