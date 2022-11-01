@@ -1,0 +1,3 @@
+Carla Oñate Gardella A01653555 - Algoritmo de flujo maximo y validacion de matrices
+Octavio Augusto Aleman Esparza A01660702 - Algoritmo de proximidad de puntos y validacion de input del problema 4
+Manual Camacho Padilla A01423135 - Algoritmo de dijskstra, algoritmo del viajero y lectura de archivos con inputs.

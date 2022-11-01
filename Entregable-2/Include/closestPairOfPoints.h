@@ -60,6 +60,17 @@ bool regexCoordinate(string coor) // Time: O(1)
     return regex_match(coor, expReg);
 }
 
+bool validateIfEntered(float x, float y, vector<vector<float>> coordenadas) // Time: O(n)
+{
+    for(int i = 0; i < coordenadas.size(); i ++){
+        if(x == coordenadas[i][0] && y == coordenadas[i][1])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void inputsCoordinates(int n) // Time: O(n)
 {
     cout << "[Closest Pair Of Points]" << endl;
@@ -89,11 +100,24 @@ void inputsCoordinates(int n) // Time: O(n)
 
             string delimiter = ",";
 
-            coor.push_back(stof(coordinate.substr(0, coordinate.find(delimiter))));
+            float x, y;
+
+            x = stof(coordinate.substr(0, coordinate.find(delimiter)));
+            coor.push_back(x);
             coordinate.erase(0, coordinate.find(delimiter) + delimiter.length());
             coor.push_back(stof(coordinate));
+            y = stof(coordinate);
 
-            centrals.push_back(coor);
+            if(!validateIfEntered(x, y, centrals))
+            {
+                centrals.push_back(coor);
+            }
+            else
+            {
+                i--;
+                cout << "Invalid entry. Coordinates have already been registered for another central.\n";
+            }
+
         }
         else
         {
@@ -129,11 +153,23 @@ void inputsCoordinates(int n) // Time: O(n)
 
             string delimiter = ",";
 
-            coor.push_back(stof(colony.substr(0, colony.find(delimiter))));
+            float x, y;
+
+            x = stof(colony.substr(0, colony.find(delimiter)));
+            coor.push_back(x);
             colony.erase(0, colony.find(delimiter) + delimiter.length());
             coor.push_back(stof(colony));
+            y = stof(colony);
 
-            colonies.push_back(coor);
+            if(!validateIfEntered(x, y, colonies))
+            {
+                colonies.push_back(coor);
+            }
+            else
+            {
+                i--;
+                cout << "Invalid entry. Coordinates have already been registered for another colony.\n";
+            }
         }
         else
         {

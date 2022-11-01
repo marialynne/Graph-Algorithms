@@ -25,6 +25,12 @@ int main()
 
     n = stoi(cn);
 
+    if (n != stringMatrix1.size()) {
+      cout << "\n\t << Invalid data! >>";
+      cout << "\n\tn does not match matrix in file";
+      exit(0);
+    }
+
     cout << "\n\n--------------------VALIDATION--------------------\n\n";
 
     vector<vector<float>> resultingMatrix1 = generalValidations(stringMatrix1, 1);
@@ -33,12 +39,20 @@ int main()
     if (resultingMatrix1.size() != n || resultingMatrix2.size() != n)
     {
         cout << "\n\t << Invalid data! >>";
+        cout << "Rules: \n\t Diagonal must be 0 in matrix. "
+            << "\n\tIn matrix 1 nodes that are not connected must have a -1. "
+            << "\n\tIn matrix 2 nodes that are not connected must have a 0."
+            << "\n\tBoth matrix 1 y 2 must have correspondence between each other if in matrix 1 there is a -1 in matrix 2 there must be a 0 there.\n";
         exit(0);
     }
 
     if (resultingMatrix1.empty() || resultingMatrix2.empty())
     {
         cout << "\n\t<< Invalid data! >>\n";
+        cout << "Rules: \n\t Diagonal must be 0 in matrix. "
+           << "\n\tIn matrix 1 nodes that are not connected must have a -1. "
+           << "\n\tIn matrix 2 nodes that are not connected must have a 0."
+           << "\n\tBoth matrix 1 y 2 must have correspondence between each other if in matrix 1 there is a -1 in matrix 2 there must be a 0 there.\n";
         exit(0);
     }
     else
@@ -50,6 +64,10 @@ int main()
         else
         {
             cout << "\n\t<< Invalid data! >>\n";
+            cout << "Rules: \n\t Diagonal must be 0 in matrix. "
+               << "\n\tIn matrix 1 nodes that are not connected must have a -1. "
+               << "\n\tIn matrix 2 nodes that are not connected must have a 0."
+               << "\n\tBoth matrix 1 y 2 must have correspondence between each other if in matrix 1 there is a -1 in matrix 2 there must be a 0 there.\n";
             exit(0);
         }
     }
