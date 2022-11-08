@@ -22,7 +22,7 @@ bool regexCoordinate(string coor) // Time: O(1)
     return regex_match(coor, expReg);
 }
 
-bool validateIfEntered(float x, float y, vector<tuple<float, float>> coordenadas) // Time: O(n)
+bool validateIfEntered(float x, float y, vector<tuple<float, float> > coordenadas) // Time: O(n)
 {
     for(int i = 0; i < coordenadas.size(); i ++){
         if(x == get<0>(coordenadas[i]) && y == get<1>(coordenadas[i]))
@@ -35,7 +35,7 @@ bool validateIfEntered(float x, float y, vector<tuple<float, float>> coordenadas
 
 int main()
 {
-  vector<tuple<float, float>> points;
+  vector<tuple<float, float> > points;
   string n;
   cout << "Input n: \n";
   cin >> n;
@@ -80,9 +80,12 @@ int main()
         }
         else
         {
-            i--;
-            cout << "Invalid entry. Coordinates have already been registered. \n";
+          i--;
+          cout << "Invalid entry. Coordinates have already been registered. \n";
         }
+      } else {
+        i--;
+        cout << "\nInvalid entry. Retry...\n";
       }
 
   }
